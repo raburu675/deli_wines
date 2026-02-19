@@ -4,40 +4,11 @@ import  ReactDOM  from 'react-dom'
 
 function Checkout({checkout,closeCheckout,totalPrice}) {
 
-  // const initiatePayment = () => {
-  //   try {
-  //     const generateToken = async () => {
-  //       try {
-  //         const response = await axios.get('http://localhost:8000/generateToken');
-  //         return response.data.token;
-  //       } catch (error) {
-  //         console.error(error);
-  //         throw new Error('Failed to generate token');
-  //       }
-  //     };
-      
-  //     const initiateStkPush = async (phone, amount) => {
-  //       try {
-  //         const response = await axios.post('http://localhost:8000/stkPush', {
-  //           phone: phone,
-  //           amount: amount
-  //         });
-  //         return response.data;
-  //       } catch (error) {
-  //         console.error(error);
-  //         throw new Error('Failed to initiate STK push');
-  //       }
-  //     };
-  //   } catch (error) {
-  //     console.error(error);
-  //     throw new Error('Failed to initiate STK push');
-  //   }
-  // }
 
   const initiatePayment = async (e,phoneNumber,amount) => {
     e.preventDefault()
     try {
-      const response = await axios.post('http://localhost:8000/stkPush', {
+      const response = await axios.post('/api/stkPush', {
         phoneNumber: phoneNumber,
         amount: amount,
         name: name
@@ -45,7 +16,7 @@ function Checkout({checkout,closeCheckout,totalPrice}) {
     console.log(response.data);
     // Handle response as needed
     } catch (error) {
-      console.log(error)
+      console.log("Payment error:",error)
     }
   }
   

@@ -1,4 +1,5 @@
 const axios = require('axios');
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors')
 const app = express();
@@ -15,7 +16,7 @@ const { stkPush } = require('./controllerFile')
 //This function calls the createToken function, which generates and returns an access token. 
 //Once the token is obtained, it's sent back as a response to the client.
 
-app.get('/generateToken', async (req, res) => {
+app.get('/api/generateToken', async (req, res) => {
     try {
         //pass the imported createToken() function from the controllerFile.js
         const token = await createToken();
@@ -27,7 +28,7 @@ app.get('/generateToken', async (req, res) => {
     }
 });
 //this route is triggered from the frontend and calls the imported stkPush() function
-app.post('/stkPush', async (req, res) => {
+app.post('/api/stkPush', async (req, res) => {
     try {
         //call the imported stkPush() function imported from controllerFile.js 
         await stkPush(req.body);
@@ -40,8 +41,10 @@ app.post('/stkPush', async (req, res) => {
 });
 
 // Start the server
-const PORT = process.env.PORT || 8000;
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-});
+if (process.env.NODE_ENV !== 'production') {
+    const PORT = process.env.PORT || 8000;
+    app.listen(PORT, () => {
+        console.log(`Server is running on port ${PORT}`);
+    });
+}
 module.exports = app
